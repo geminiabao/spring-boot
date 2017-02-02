@@ -1,5 +1,6 @@
 package teacher.service.Impl;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import teacher.model.CurrentPosition;
 import teacher.service.PositionService;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ public class DefaultPositionService implements PositionService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPositionService.class);
 
+    //@Autowired introduce bean with eureka
     private RestTemplate restTemplate = new RestTemplate();
 
     @Value("${com.teacher.location.ingest}")
@@ -24,6 +26,7 @@ public class DefaultPositionService implements PositionService {
         super();
     }
 
+    @HystrixCommand(fallbackMethod = "processPositionInfoFallback")
     @Override
     public void processPositionInfo(long id, CurrentPosition currentPosition, boolean exportPositionsToKml,
                                     boolean sendPositionsToIngestionService) {
@@ -32,6 +35,7 @@ public class DefaultPositionService implements PositionService {
 //            this.kmlService.updatePosition(id, currentPosition);
 //        }
 
+        // String fleetLocationIngest = "http://location-ingest"; // access by euraka server
         if (sendPositionsToIngestionService) {
             this.restTemplate.postForLocation(fleetLocationIngest + "/api/locations", currentPosition);
         }

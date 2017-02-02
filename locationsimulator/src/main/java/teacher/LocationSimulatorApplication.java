@@ -2,12 +2,14 @@ package teacher;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @SpringBootApplication
-//@EnableDiscoveryClient
-//@EnableCircuitBreaker
+@EnableDiscoveryClient
+@EnableCircuitBreaker
 @EnableScheduling
 public class LocationSimulatorApplication {
 

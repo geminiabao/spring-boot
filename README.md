@@ -1,2 +1,2 @@
-# spring-boot-project
+# spring-boot application
 A real-time car monitoring system
